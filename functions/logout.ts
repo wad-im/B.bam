@@ -15,6 +15,9 @@ const handler: Handler = async (event, context) => {
         if (error){
             throw createError(error.status, error.message)
         }
+        return {
+            statusCode: 200
+        }
     } catch (error) {
         return {
             statusCode: error.status || 500,

@@ -10489,6 +10489,9 @@ var handler = async (event, context) => {
     if (error) {
       throw (0, import_http_errors.default)(error.status, error.message);
     }
+    return {
+      statusCode: 200
+    };
   } catch (error) {
     return {
       statusCode: error.status || 500,

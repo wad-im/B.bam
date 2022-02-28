@@ -16,7 +16,7 @@ const Header = ()=> {
         try {
             await axios.post("/api/logout", {accessToken})
         } catch (error: any) {
-           console.log(error.response.data.error) 
+           console.log(error.response.data) 
         }
     }
 
@@ -32,9 +32,15 @@ const Header = ()=> {
     }
 
     return (
-        <Box component='header' sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+        <Box component='header' sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', px: 4}}>
             <Typography variant="h3" component="h2">B.bam</Typography>
-            { user.data && <Button variant='outlined' onClick={handleLogout}>Logout</Button> }
+            { user.data && (
+                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                    <Typography sx={{mr: 2}}>{user.data.email}</Typography>
+                    <Button variant='outlined' onClick={handleLogout}>Logout</Button>
+                </Box>
+                ) 
+            }
         </Box>
     )
 }

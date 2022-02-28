@@ -6,4 +6,5 @@ I use the app to practice to new skills and explore different tech stacks. It is
 
 - React with Typescript
 - Supabase
+- Netlify Functions
 - Materiual UI
