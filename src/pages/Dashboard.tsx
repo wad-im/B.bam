@@ -1,20 +1,16 @@
-import Typography  from "@mui/material/Typography"
 import Paper  from "@mui/material/Paper"
-import { Box, Button } from "@mui/material"
-import BookingsList from "../components/BookingsList"
+import { Box } from "@mui/material"
+import { Outlet} from "react-router-dom"
+import DashboardHeader from "../components/DashboardHeader"
 
 
 const Dashboard = () => {
 
-    
     return (
         <Paper variant='outlined' sx={{mt: 4, p: 4, height: '75%'}}>
-            <Box sx={{display: 'flex', justifyContent: "space-between", mb: 4}}>
-                <Typography variant="h4" component="h2" sx={{fontWeight: "bold"}}>Your bookings</Typography>
-                <Button variant='contained'>Make a booking</Button>
-            </Box>
+            <DashboardHeader/>
             <Box>
-                <BookingsList/>
+                <Outlet/>
             </Box>
         </Paper>
     )

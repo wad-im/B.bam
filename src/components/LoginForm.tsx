@@ -6,7 +6,7 @@ import axios from "axios"
 
 import TextField from "@mui/material/TextField"
 import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
+import LoadingButton from '@mui/lab/LoadingButton';
 import FormHelperText from '@mui/material/FormHelperText';
 import { UserContext } from "../context"
 
@@ -29,6 +29,7 @@ const LoginForm = ()=>{
             setStatus('Authenticating')
             const {data} = await axios.post("/api/login", { values })
             if (data){
+                setStatus('Success')
                 setUser({
                     data: {
                         id: data.session.user.id,
@@ -82,6 +83,7 @@ const LoginForm = ()=>{
                 value={formik.values.email}
                 helperText={formik.touched.email && formik.errors.email}
                 error={formik.touched.email && Boolean(formik.errors.email)}
+                disabled={Boolean(status === 'Authenticating')}
             />
             <TextField
                 label="Password"
@@ -96,9 +98,17 @@ const LoginForm = ()=>{
                 value={formik.values.password}
                 helperText={formik.touched.password && formik.errors.password}
                 error={formik.touched.password && Boolean(formik.errors.password)}
+                disabled={Boolean(status === 'Authenticating')}
             />
             {errMsg && <FormHelperText error={status === 'Error' ? true : false}>{errMsg}</FormHelperText> }
-            <Button type="submit" variant="contained" size="medium" sx={{marginTop: 2}}>Login</Button>
+            <LoadingButton 
+                type="submit" 
+                variant="contained" 
+                size="medium" 
+                sx={{marginTop: 2}} 
+                loading={Boolean(status === 'Authenticating')}
+                disabled={Boolean(status === 'Authenticating')}
+            >Login</LoadingButton>
         </Box>
     )
 }

@@ -7,16 +7,14 @@ import {
 
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
-import { useContext } from "react";
-import { UserContext } from "../context";
 import {  Container } from "@mui/material";
 import Header from "./Header";
 import ProtectedRoute from "./ProtectedRoute";
+import CreateBooking from "./BookingProcess/CreateBooking";
+import Bookings from "./Bookings";
 
 
 function App() {
-
-  const [user, setUser] = useContext(UserContext)
 
   return (
     <Router>
@@ -25,7 +23,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />}/>
           <Route path="/dashboard" element={<ProtectedRoute/>}>
-            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}>
+              <Route path='' element={<Bookings/>}/>
+              <Route path='createbooking' element={<CreateBooking/>}/>
+            </Route>
           </Route>
         </Routes>
       </Container>

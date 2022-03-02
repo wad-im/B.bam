@@ -1,6 +1,7 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { List, ListItem, Divider, Typography } from "@mui/material"
+import { DateTime } from "luxon";
 
 interface Booking {
     booking_id: string,
@@ -12,7 +13,7 @@ interface Booking {
     }
 }
 
-const BookingsList = ()=>{
+const Bookings = ()=>{
 
     const [bookings, setBookings] =useState<Booking[]>([])
 
@@ -30,23 +31,23 @@ const BookingsList = ()=>{
         fetchBookings()
     },[])
 
-    console.log(bookings)
-
     return bookings.length ? 
         <List>
-            {bookings.map(booking => (
-                <React.Fragment key={booking.booking_id}>
-                    <ListItem  sx={{display: 'flex', flexDirection: 'column', alignItems: 'start', py: 2}} disablePadding>
-                        <Typography variant='h5' component='h3'>{booking.product.product_name}</Typography>
-                        <Typography>booked on {booking.created_at}</Typography>
-                    </ListItem>
-                    <Divider/>
-                </React.Fragment>
-                    
-                
-            ))}
+            {bookings.map(booking => {
+                const date = DateTime.fromISO(booking.created_at).setLocale('en-us').toLocaleString(DateTime.DATE_HUGE)
+                const time = DateTime.fromISO(booking.created_at).toLocaleString(DateTime.TIME_24_SIMPLE)
+                return (
+                    <React.Fragment key={booking.booking_id}>
+                        <ListItem  sx={{display: 'flex', flexDirection: 'column', alignItems: 'start', py: 2}} disablePadding>
+                            <Typography variant='h5' component='h3'>{booking.product.product_name}</Typography>
+                            <Typography>booked on {date} at {time}</Typography>
+                        </ListItem>
+                        <Divider/>
+                    </React.Fragment>
+                )
+        })}
         </List> : <Typography>It seems like you did not have a booking.</Typography>
     
 }
 
-export default BookingsList
+export default Bookings
