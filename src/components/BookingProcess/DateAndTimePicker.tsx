@@ -2,7 +2,7 @@ import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AdapterLuxon from "@mui/lab/AdapterLuxon";
 import { Box, TextField } from "@mui/material";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 interface DateAndTimePickerProps {
@@ -11,12 +11,17 @@ interface DateAndTimePickerProps {
 
 const DateAndTimePicker = ({setTime}:DateAndTimePickerProps )=>{
 
-    const [pickedTime, setPickedTime] = useState<DateTime>()
+    const [pickedTime, setPickedTime] = useState<DateTime | undefined>()
     
     const handleForm = async (newValue: any)=>{
         setPickedTime(newValue)
-        pickedTime && setTime(pickedTime)
     }
+
+
+// I added setTime as a dependency here, because of a linting error, but I need to follow up, as I do not fully get it
+    useEffect(()=>{
+        setTime(pickedTime)
+    }, [pickedTime, setTime])
     
      return (
         <Box sx={{my: 4}}>
