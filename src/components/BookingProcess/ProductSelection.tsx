@@ -1,24 +1,22 @@
-import {  FormGroup, Typography, FormControlLabel, Checkbox } from "@mui/material"
+import {  FormControlLabel, FormControl, Radio, RadioGroup } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { Product } from "./CreateBooking"
 
-interface Product {
-    product_name: string,
-    product_id: string | null,
-    product_description: string | null,
+interface ProductSelectionProps {
+    setProduct: React.Dispatch<React.SetStateAction<Product | undefined>>
 }
 
 
-const ProductSelection = () => {
+const ProductSelection = ({setProduct}: ProductSelectionProps) => {
 
-    const [product, setProduct] =useState<Product[]>([])
-    const [isSelectedProduct, setIsSelectedProduct] = useState<Product>({product_name: '', product_id: null, product_description: null })
+    const [products, setProducts] =useState<Product[]>([])
 
     const fetchProducts = async ()=>{
         const accessToken = localStorage.getItem("access_token")
         try {
             const {data} = await axios.post("/api/product", {accessToken})
-            setProduct(data.product)
+            setProducts(data.product)
         } catch (error: any) {
             console.log(error.response.data.error.message)
         }
@@ -28,16 +26,33 @@ const ProductSelection = () => {
         fetchProducts()
     },[])
 
-    
+    const handleForm = (event: any)=>{
+        setProduct({
+            product_name: event.target.name,
+            product_id: event.target.id,
+            product_description: null
+            }
+        )
+    }
 
     return (
-        <FormGroup sx={{py: 4}}>
-            {
-                product.map(product => 
-                    <FormControlLabel control={<Checkbox />} label={product.product_name} key={product.product_id}/>
-                )
-            }
-        </FormGroup>
+        <FormControl sx={{py: 4}}>
+            <RadioGroup name="radio-buttons-group">
+                {
+                    products.map((product) => 
+                        <FormControlLabel
+                        control={<Radio id={product.product_id} />}
+                        label={product.product_name}
+                        key={product.product_id}
+                        value={product.product_name}
+                        name={product.product_name}
+                        onChange={handleForm}
+                        />
+                        
+                    )
+                }
+            </RadioGroup>
+        </FormControl>
     )
 }
 

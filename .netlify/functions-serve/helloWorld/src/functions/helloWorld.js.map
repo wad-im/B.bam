@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../Wadim baslow/Desktop/WebDev/Projects/bogna-gets-massages/client/functions/helloWorld.ts"],
-  "sourceRoot": "C:/Users/WADIMB~1/AppData/Local/Temp/tmp-16520-xONTcU3ikknj",
-  "sourcesContent": ["import { Handler } from \"@netlify/functions\";\r\n\r\nconst handler: Handler = async (event, context) => {\r\n\r\n    return {\r\n        statusCode: 200,\r\n        body: JSON.stringify({ msg: \"hello world\" }),\r\n      }\r\n  \r\n  };\r\n  \r\n  export { handler };"],
-  "mappings": ";;;;;;;;;AAAA;AAAA;AAAA;AAEA,IAAM,UAAmB,OAAO,OAAO,YAAY;AAE/C,SAAO;AAAA,IACH,YAAY;AAAA,IACZ,MAAM,KAAK,UAAU,EAAE,KAAK;AAAA;AAAA;",
-  "names": []
-}

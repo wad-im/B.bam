@@ -11,7 +11,7 @@ const handler: Handler = async (event, context) => {
   try {
     let { data: booking, error } = await supabase
       .from('booking')
-      .select('booking_id, created_at, product (*)')
+      .select('booking_id, created_at, booking_time, booked_location, product (*)')
 
     if(error){
       throw createError(400, error.message, user)
