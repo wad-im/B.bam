@@ -8,3 +8,5 @@ I use the app to practice to new skills and explore different tech stacks. It is
 - Supabase
 - Netlify Functions
 - Materiual UI
+
+The live version is [here](https://bbam.netlify.app/)
