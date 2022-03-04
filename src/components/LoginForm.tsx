@@ -38,7 +38,7 @@ const LoginForm = ()=>{
                     loading: false,
                     error: null
                 })
-                localStorage.setItem('access_token', data.session.access_token)
+                localStorage.setItem('x-supabase-auth', data.session.access_token)
                 navigate("/dashboard")
             }
         } catch (error:any) {

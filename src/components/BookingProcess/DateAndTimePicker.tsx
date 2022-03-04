@@ -21,7 +21,8 @@ const DateAndTimePicker = ({setTime}:DateAndTimePickerProps )=>{
 // I added setTime as a dependency here, because of a linting error, but I need to follow up, as I do not fully get it
     useEffect(()=>{
         setTime(pickedTime)
-    }, [pickedTime, setTime])
+    }, [pickedTime])
+
     
      return (
         <Box sx={{my: 4}}>

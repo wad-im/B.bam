@@ -12,9 +12,8 @@ const Header = ()=> {
     
 
     const logoutUserFromSupabase = async ()=>{
-        const accessToken = localStorage.getItem("access_token")
         try {
-            await axios.post("/api/logout", {accessToken})
+            await axios.post("/api/logout")
         } catch (error: any) {
            console.log(error.response.data) 
         }
@@ -27,7 +26,7 @@ const Header = ()=> {
             error: null
           })
           logoutUserFromSupabase()
-          localStorage.removeItem("access_token")
+          localStorage.removeItem("x-supabase-auth")
           navigate('/')
     }
 

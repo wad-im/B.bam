@@ -36,7 +36,7 @@ const fetchBookings = async ()=> {
   // get all bookings that the user made from database
   let { data: booking, error } = await supabase
     .from('booking')
-    .select('booking_id, created_at, booking_time, booked_location, booking_status, product (*)')
+    .select('booking_id, created_at, booking_time, booked_location, booking_confirmed, product (*)')
   // if there is an error, throw it and send it to the console and the user (see above)
   if(error){
     throw createError(400, error.message)
@@ -61,7 +61,6 @@ const createBooking = async (requestBody) =>{
                 booked_product: product.product_id,
                 booking_time: booked_time,
                 booked_location: location,
-                booking_status: 'Confirmation pending'
             },
         ])
     // if there is an error, throw it and send it to the console and the user (see above)

@@ -34,17 +34,16 @@ const BackNextButtons = ({activeStep, setActiveStep, product, location, time}: B
       };
 
       const makeBooking = async (product: Product | undefined, location: string | undefined, time: DateTime | undefined) => {
-        const accessToken = localStorage.getItem("access_token")
         const booked_time = time?.toISO()
         try {
             setStatus('Submitting')
-            const response = await axios.post("/api/sendbooking", {accessToken, product, location, booked_time, user})
+            const response = await axios.post("/api/bookings", {product, location, booked_time, user})
             if (response){
                 setStatus('Success')
                 navigate('/dashboard')
             }
         } catch (error: any) {
-            console.log(error.response.data.error.message)
+            console.error(error.response.data.error)
         }
       }
 

@@ -24,11 +24,14 @@ const UserProvider = ({children}:any)=>{
         loading: true
     })
 
-    const accessToken = localStorage.getItem("access_token")
+    const accessToken = localStorage.getItem("x-supabase-auth")
+    if (accessToken) {
+        axios.defaults.headers.common["x-supabase-auth"] = accessToken
+    }
 
     const fetchUser = async ()=>{
         try {
-            const {data} = await axios.post("/api/user", {accessToken})
+            const {data} = await axios.get("/api/user")
             if (data && data.user){
                 setUser({
                     data: {
@@ -60,7 +63,7 @@ const UserProvider = ({children}:any)=>{
                 error: null
             })
         }
-    },[])
+    },[accessToken])
 
     return <UserContext.Provider value={[user, setUser]}>
         {children}
