@@ -5,7 +5,7 @@ import createError from "http-errors"
 
 const handler: Handler = async (event, context) => {
 
-    const accessToken = JSON.parse(event.body).accessToken
+    const accessToken = event.headers["x-supabase-auth"]
 
     try {
         const { error } = await supabase.auth.api.signOut(
