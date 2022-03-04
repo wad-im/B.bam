@@ -25,9 +25,6 @@ const UserProvider = ({children}:any)=>{
     })
 
     const accessToken = localStorage.getItem("x-supabase-auth")
-    if (accessToken) {
-        axios.defaults.headers.common["x-supabase-auth"] = accessToken
-    }
 
     const fetchUser = async ()=>{
         try {
@@ -63,7 +60,7 @@ const UserProvider = ({children}:any)=>{
                 error: null
             })
         }
-    },[accessToken])
+    },[])
 
     return <UserContext.Provider value={[user, setUser]}>
         {children}

@@ -26,6 +26,7 @@ const Header = ()=> {
             error: null
           })
           logoutUserFromSupabase()
+          delete axios.defaults.headers.common["x-supabase-auth"];
           localStorage.removeItem("x-supabase-auth")
           navigate('/')
     }

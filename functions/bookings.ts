@@ -10,11 +10,13 @@ const handler: Handler = async (event, context) => {
   const {httpMethod} = event
 
   try {
-    supabase.auth.setAuth(accessToken)
     if(httpMethod === 'GET'){
-      return await fetchBookings()
+      return await fetchBookings(accessToken)
     } else if (httpMethod === 'POST'){
-      return await createBooking(event.body)
+      return await createBooking(event.body, accessToken)
+    } else if(httpMethod === 'DELETE'){
+      await deleteBooking(event.body, accessToken)
+      console.log('inside delete function call')
     } else {
       throw createError (405, 'Method not allowed')
     }
@@ -29,10 +31,12 @@ const handler: Handler = async (event, context) => {
   }
 };
 
+
+
 export { handler };
 
-const fetchBookings = async ()=> {
-
+const fetchBookings = async (accessToken)=> {
+  supabase.auth.setAuth(accessToken)
   // get all bookings that the user made from database
   let { data: booking, error } = await supabase
     .from('booking')
@@ -48,8 +52,8 @@ const fetchBookings = async ()=> {
   }
 }
 
-const createBooking = async (requestBody) =>{
-
+const createBooking = async (requestBody, accessToken) =>{
+  supabase.auth.setAuth(accessToken)
   const {product, location, booked_time, user} = JSON.parse(requestBody)
   
   // send the new booking of the user to the database
@@ -71,5 +75,25 @@ const createBooking = async (requestBody) =>{
     return {
       statusCode: 200,
       body:JSON.stringify({data: data, error: error})
+    }
+}
+
+const deleteBooking = async (requestBody, accessToken)=>{
+  supabase.auth.setAuth(accessToken)
+  const booking_id = requestBody
+  console.log('inside delete function')
+
+  const { data, error } = await supabase
+    .from('booking')
+    .delete()
+    .eq('booking_id', booking_id)
+
+    if(error){
+      throw createError(400, error.message)
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({data: data})
     }
 }

@@ -6,7 +6,6 @@ import { UserContext } from "../context"
 
 const ProtectedRoute = ()=> {
     const [user] = useContext(UserContext)
-    const location = useLocation()
 
     if (user.loading) return <Backdrop
     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -14,7 +13,7 @@ const ProtectedRoute = ()=> {
     <CircularProgress color="inherit" />
   </Backdrop>
 
-    return user.data ? <Outlet/> : <Navigate to='/' replace state={{ from: location }}/>
+    return user.data ? <Outlet/> : <Navigate to='/'/>
 }
 
 export default ProtectedRoute

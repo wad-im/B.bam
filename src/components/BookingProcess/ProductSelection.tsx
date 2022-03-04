@@ -13,9 +13,8 @@ const ProductSelection = ({setProduct}: ProductSelectionProps) => {
     const [products, setProducts] =useState<Product[]>([])
 
     const fetchProducts = async ()=>{
-        const accessToken = localStorage.getItem("access_token")
         try {
-            const {data} = await axios.post("/api/product", {accessToken})
+            const {data} = await axios.get("/api/product")
             setProducts(data.product)
         } catch (error: any) {
             console.log(error.response.data.error.message)

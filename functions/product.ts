@@ -5,8 +5,8 @@ import { supabase } from "./supabase/supabase";
 
 const handler: Handler = async (event, context) => {
 
-  const accessToken = JSON.parse(event.body).accessToken
-  const {user}=supabase.auth.setAuth(accessToken)
+  const accessToken = event.headers["x-supabase-auth"] 
+  supabase.auth.setAuth(accessToken)
 
   try {
     let { data: product, error } = await supabase
@@ -14,7 +14,7 @@ const handler: Handler = async (event, context) => {
         .select('*')
 
     if(error){
-      throw createError(400, error.message, user)
+      throw createError(400, error.message)
     }
 
     return {

@@ -39,6 +39,7 @@ const LoginForm = ()=>{
                     error: null
                 })
                 localStorage.setItem('x-supabase-auth', data.session.access_token)
+                axios.defaults.headers.common["x-supabase-auth"] = data.session.access_token
                 navigate("/dashboard")
             }
         } catch (error:any) {

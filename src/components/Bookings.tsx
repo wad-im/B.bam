@@ -46,7 +46,7 @@ const Bookings = ()=>{
                         <ListItem  sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between' , py: 2}} disablePadding>
                             <Box sx={{display: 'flex', alignItems: 'center'}}>
                                 <Typography variant='h5' component='h3' sx={{fontWeight: 'medium'}} >{booking.product.product_name}</Typography>
-                                <Chip label={booking.booking_confirmed ? 'Confirmed' : 'Confirmation Pending'} color={booking.booking_confirmed ? 'success' : 'warning'} variant='outlined' size="small" sx={{ml: 2}}/>
+                                <Chip label={booking.booking_confirmed ? 'Confirmed' : 'Confirmation Pending'} color={booking.booking_confirmed ? 'success' : 'warning'} variant='outlined' size="small" sx={{mx: 2}}/>
                             </Box>
                             <Box sx={{display: 'flex', alignItems: 'center'}}>
                                 <Box  color='info.main' sx={{display: 'flex', alignItems: 'center', ml: 4, }}>
