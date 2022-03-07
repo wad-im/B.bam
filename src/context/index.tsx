@@ -52,6 +52,7 @@ const UserProvider = ({children}:any)=>{
 
     useEffect(()=>{
         if(accessToken){
+            axios.defaults.headers.common["x-supabase-auth"] = accessToken
             fetchUser()
         } else {
             setUser({
