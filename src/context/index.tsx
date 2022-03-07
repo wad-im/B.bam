@@ -25,7 +25,7 @@ const UserProvider = ({children}:any)=>{
     })
 
     const accessToken = localStorage.getItem("x-supabase-auth")
-
+    
     const fetchUser = async ()=>{
         try {
             const {data} = await axios.get("/api/user")

@@ -15,8 +15,7 @@ const handler: Handler = async (event, context) => {
     } else if (httpMethod === 'POST'){
       return await createBooking(event.body, accessToken)
     } else if(httpMethod === 'DELETE'){
-      await deleteBooking(event.body, accessToken)
-      console.log('inside delete function call')
+      return await updateBooking(event.body, accessToken)
     } else {
       throw createError (405, 'Method not allowed')
     }
@@ -40,7 +39,7 @@ const fetchBookings = async (accessToken)=> {
   // get all bookings that the user made from database
   let { data: booking, error } = await supabase
     .from('booking')
-    .select('booking_id, created_at, booking_time, booked_location, booking_confirmed, product (*)')
+    .select('booking_id, created_at, booking_time, booked_location, booking_status, product (*)')
   // if there is an error, throw it and send it to the console and the user (see above)
   if(error){
     throw createError(400, error.message)
@@ -78,14 +77,12 @@ const createBooking = async (requestBody, accessToken) =>{
     }
 }
 
-const deleteBooking = async (requestBody, accessToken)=>{
+const updateBooking = async (requestBody, accessToken)=>{
   supabase.auth.setAuth(accessToken)
-  const booking_id = requestBody
-  console.log('inside delete function')
-
+  const {booking_id} = JSON.parse(requestBody)
   const { data, error } = await supabase
     .from('booking')
-    .delete()
+    .update({ booking_status: 'cancelled' })
     .eq('booking_id', booking_id)
 
     if(error){
