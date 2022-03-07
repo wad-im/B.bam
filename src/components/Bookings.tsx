@@ -1,11 +1,8 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { List, ListItem, Divider, Typography, Box, Chip } from "@mui/material"
+import { List, Typography} from "@mui/material"
 import { DateTime } from "luxon";
-import EventIcon from '@mui/icons-material/Event';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import EditBooking from "./EditBooking";
+import BookingItem from "./BookingItem";
 
 export interface Booking {
     booking_id: string,
@@ -37,43 +34,41 @@ const Bookings = ()=>{
         fetchBookings()
     },[])
 
-    console.log(bookings)
-
-    return bookings.length ? 
-        <List>
-            {bookings.map(booking => {
-                const date = DateTime.fromISO(booking.booking_time).setLocale('en-us').toLocaleString(DateTime.DATE_HUGE)
-                const time = DateTime.fromISO(booking.booking_time).toLocaleString(DateTime.TIME_24_SIMPLE)
-                
-                    return (
-                        <React.Fragment key={booking.booking_id}>
-                            <ListItem  sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between' , py: 2}} disablePadding>
-                                <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                    <Typography variant='h5' component='h3' sx={{fontWeight: 'medium'}} >{booking.product.product_name}</Typography>
-                                    <Chip label={booking.booking_status && booking.booking_status} color={booking.booking_status === 'confirmed' ? 'success' : 'warning'} variant='outlined' size="small" sx={{mx: 2}}/>
-                                    <EditBooking bookings={bookings} setBookings={setBookings} bookingId={booking.booking_id}/>
-                                </Box>
-                                <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                    <Box  color='info.main' sx={{display: 'flex', alignItems: 'center', ml: 4, }}>
-                                        <EventIcon sx={{mr: 1}}/>
-                                        <Typography>{date}</Typography>
-                                    </Box>
-                                    <Box color='info.main' sx={{display: 'flex', alignItems: 'center', ml: 4}}>
-                                        <AccessTimeIcon sx={{mr: 1}}/>
-                                        <Typography>{time}</Typography>
-                                    </Box>
-                                    <Box color='success.main' sx={{display: 'flex', alignItems: 'center', ml: 4}}>
-                                        <LocationOnOutlinedIcon sx={{mr: 1}}/>
-                                        <Typography>{booking.booked_location}</Typography>
-                                    </Box>
-                                </Box>
-                            </ListItem>
-                            <Divider/>
-                        </React.Fragment>
-                    )
-        })}
-        </List> : <Typography>It seems like you did not have a booking.</Typography>
+    bookings.sort((a, b) => {
+        const firstTime = DateTime.fromISO(a.booking_time)
+        const secondTime = DateTime.fromISO(b.booking_time)
+        if (firstTime < secondTime){
+            return 1
+        } else if (firstTime > secondTime){
+            return -1
+        } else {
+            return 0
+        }
+    })  
     
+    const currentTime = DateTime.now()
+    let upcomingBookings = bookings.filter(booking => {
+        const bookingTime = DateTime.fromISO(booking.booking_time)
+        return bookingTime > currentTime
+    })
+
+    let pastBookings = bookings.filter(booking => {
+        const bookingTime = DateTime.fromISO(booking.booking_time)
+        return bookingTime < currentTime
+    })
+    
+
+  
+    return upcomingBookings.length ?
+
+                <List>
+                    {
+                        upcomingBookings.map(booking => (
+                            <BookingItem key={booking.booking_id} booking={booking} bookings={bookings} setBookings={setBookings}/>
+                        ))
+                    }
+                </List> : <Typography>{pastBookings.length ? 'You have not booked a new massage' : 'Book your first massage.'}</Typography>
+ 
 }
 
 export default Bookings
