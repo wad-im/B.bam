@@ -63,7 +63,7 @@ const Bookings = ()=>{
     return (
         <React.Fragment>
             {
-                upcomingBookings ? 
+                upcomingBookings.length ? 
                 <List>
                     {
                         upcomingBookings.map(booking => (
