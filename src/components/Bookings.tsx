@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { List, Typography} from "@mui/material"
 import { DateTime } from "luxon";
 import BookingItem from "./BookingItem";
+import BookingArchive from "./BookingArchive";
 
 export interface Booking {
     booking_id: string,
@@ -59,8 +60,10 @@ const Bookings = ()=>{
     
 
   
-    return upcomingBookings.length ?
-
+    return (
+        <React.Fragment>
+            {
+                upcomingBookings ? 
                 <List>
                     {
                         upcomingBookings.map(booking => (
@@ -68,6 +71,16 @@ const Bookings = ()=>{
                         ))
                     }
                 </List> : <Typography>{pastBookings.length ? 'You have not booked a new massage' : 'Book your first massage.'}</Typography>
+            }
+            {
+                pastBookings && 
+                <>
+                    <Typography sx={{mt: 8, mb: 4, fontWeight: "bold", color: 'text.secondary'}} variant="h5" component="h2">Past bookings</Typography>
+                    <BookingArchive bookings={pastBookings}/>
+                </>
+            }
+        </React.Fragment>
+    )
  
 }
 

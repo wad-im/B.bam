@@ -16,7 +16,7 @@ interface BookingItemProps {
 
 const BookingItem = ({booking, bookings, setBookings}:BookingItemProps)=>{
 
-    const date = DateTime.fromISO(booking.booking_time).setLocale('en-us').toLocaleString(DateTime.DATE_HUGE)
+    const date = DateTime.fromISO(booking.booking_time).setLocale('en-gb').toLocaleString(DateTime.DATE_HUGE)
     const time = DateTime.fromISO(booking.booking_time).toLocaleString(DateTime.TIME_24_SIMPLE)
 
     return (
