@@ -5,14 +5,18 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from 'react';
 import { Booking } from './Bookings';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface EditBookingProps {
     bookings: Booking[],
     setBookings: React.Dispatch<React.SetStateAction<Booking[]>>,
-    bookingId: string
+    bookingId: string,
+    bookingStatus: string,
 }
 
-const EditBooking = ({bookings, setBookings, bookingId}: EditBookingProps)=>{
+const EditBooking = ({bookings, setBookings, bookingId, bookingStatus}: EditBookingProps)=>{
+
+    const navigate = useNavigate()
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -21,9 +25,13 @@ const EditBooking = ({bookings, setBookings, bookingId}: EditBookingProps)=>{
     };
     const handleClose = () => {
         setAnchorEl(null);
-        updateDatabase()
-        updateBookingsState()
 
+        if (bookingStatus === 'cancelled'){
+            navigate('/dashboard/createbooking')
+        } else {
+            updateDatabase()
+            updateBookingsState()
+        }
     };
 
     const updateBookingsState = () =>{
@@ -70,7 +78,7 @@ const EditBooking = ({bookings, setBookings, bookingId}: EditBookingProps)=>{
                 }}
             >
                 <MenuItem onClick={handleClose}>
-                    Cancel
+                    {bookingStatus === 'cancelled' ? 'New booking' : 'Cancel'}
                 </MenuItem>
             </Menu>
         </div>
